@@ -1,0 +1,17 @@
+{
+  "ws": {
+    "url": "ws://crossbar:8081",
+    "realm": "saio",
+    "authId": "service",
+    "password": "service"
+  },
+
+  "db": {
+    "dialect": "mysql",
+    "user": "root",
+    "password": "",
+    "host": "db",
+    "port": "3306",
+    "dbname": "group"
+  }
+}
