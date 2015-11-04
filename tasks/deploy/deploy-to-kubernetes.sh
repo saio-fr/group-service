@@ -15,7 +15,7 @@ chmod +x tasks/deploy/group-controller.yml.sh && tasks/deploy/group-controller.y
 
 # export kubectl parameters
 export KUBERNETES_KUBECTL=~/kubernetes/cluster/kubectl.sh
-export KUBERNETES_CMD="$KUBERNETES_KUBECTL --server=${KUBERNETES_SERVER} --groupname=${KUBERNETES_groupNAME} --password=${KUBERNETES_PASSWORD} --insecure-skip-tls-verify=true"
+export KUBERNETES_CMD="$KUBERNETES_KUBECTL --server=${KUBERNETES_SERVER} --username=${KUBERNETES_USERNAME} --password=${KUBERNETES_PASSWORD} --insecure-skip-tls-verify=true"
 
 $KUBERNETES_CMD config set-context staging --namespace=staging --cluster=saio-fr_kubernetes --group=saio-fr_kubernetes
 $KUBERNETES_CMD config set-context production --namespace=production --cluster=saio-fr_kubernetes --group=saio-fr_kubernetes

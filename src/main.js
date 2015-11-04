@@ -28,7 +28,7 @@ GroupService.prototype.start = function() {
     this.ws.register('fr.saio.api.license..group.delete.',
       this.delete.bind(this),
       { match: 'wildcard', invoke: 'roundrobin'}),
-    this.ws.subscribe('fr.saio.internal.group',
+    this.ws.subscribe('fr.saio.internal.customer.deletion',
       this.onCustomerDeletion.bind(this))
   ];
 
@@ -135,7 +135,11 @@ GroupService.prototype.delete = function(args, kwargs, details) {
     }
   }).then((group) => {
     if (group) {
-      return group.destroy().catch((err) => {
+      return group.destroy().then(() => {
+        return this.ws.publish('fr.saio.internal.customer.deletion', [], {
+          id: customer.id
+        });
+      }).catch((err) => {
         throw err;
       });
     } else {
@@ -151,6 +155,13 @@ GroupService.prototype.delete = function(args, kwargs, details) {
  * details.wildcards[0]: id
  */
 GroupService.prototype.onCustomerDeletion = function(args, kwargs, details) {
+  return this.db.model.Group.destroy({
+    where: {
+      license: details.wildcards[0]
+    }
+  }).catch((err) => {
+    throw err;
+  });
 };
 
 module.exports = GroupService;
